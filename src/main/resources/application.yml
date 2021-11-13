@@ -1,0 +1,22 @@
+server:
+  port: 11451
+spring:
+  application:
+    name: pay
+pay:
+  wx:
+    appID: wxab8acb865bb1637e
+    mchID: 11473623
+    key: 2ab9071b06b9f739b950ddb41db2690d
+    notify-url: http://外网地址:外网端口/pay/wx/notify
+  ali:
+    server-url: https://openapi.alipaydev.com/gateway.do
+    app-id: 2021000118638895
+    private-key: MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCFizM3Lew5Pdk7lTIVm2r9jD1OA+NtcKaSEjSmYlYxXClhe8+IhF5v9wOwVdhbuwZnz5MUIl3FqxOYkqn449UK+eCzhwq/yQFlB1A/7vPo6uY0NNS1wc5Dgl2QzU3ffPtjGEolpOWZ0Wj7hQqqkThVS2ArfctHEGWdEvxTWphJN5DG5NkL0FXRW4U22V0ZbYwrdeT+IIlgetDowmMvTSYMNmMzXwd+6FSKnWQIky5ib8xNeUuUHfpOkHAZ/Iw+vzsFDOizu+AkLAB2ggFXKN0tirzdLeVVZMjwOUAp5A135rbhW8780d442vES9AhXgSMMZHL8WeVFrGExHB2PB0mfAgMBAAECggEAXHQulPkaHdcP2gxEjGj4/Whl2OkgPthKub4Y7UgPXETt8SuCVoUtzF47E42bKIamvKAct0fDm+IAwxRm0IULLXopcqD/dB9487TIfjq0aoCVt3cL/Hmcj2hl1qYMT7l7YPOkAcPToVY1VEybQdMgKQzyG6oPXbegYcqPHjYOUEFA3Ea+UaL/6UBtPThIJ3tr6r6zULT0WLzNvHTQbzuc+RAom7PeJAq7E5Ki+APjl38NO/6is3VHCZXT8dKV0GChxlrUoJmcT0h4/+aEXQe1jz/uNyXY89lNkbPPH313hKxw6dji6Hy6i8oh02Dq+Uza+biXcO3yzdPdezMPRkgTYQKBgQDXZctpJH4b8HJTAbW9Apxy7zP8mXe3T4UeFm0txoLsAfOi6FM0A93FAppDNuL9NTXApTBZ7CL6VZw+lrvNx72ONl4fixs1lGT5iGuxDANDge94jUKTYHpuhLJvIXp5iwDlNwJx8T5DqpPZvAqBHOBMC2UCwhPkobSkC6oR/DybFQKBgQCet3kdbzOdIrKWcyCpOxwwYQHvh0GVhtTBpG+KpvHViVzmL/ArLyjO3pPCLCDtKD8kWmw0PtTpdH3bB8OCwNDeZap1UXE4mxSBOrBj/7LG+N/SuklXi1MzYZxu1tM0zr7sdud54XE8k1oVy9lmlO2BUUczgiue8MzRCOpNJrwu4wKBgC413InWFmgQEbbVKxQ9tyrBPrn2gsSE/t4RmaK0b+oKESbmCNOj8LQPduDsqY4BGGMYDWN9UZO7QiX7WJcxPu1/pHnH8jJwf6k5J0F4fkrBWYrXY20SybFkLpPA7vGcbLjAMHoZc2447jdMLES+2S/3UdhhorruJj77caUiJC5xAoGAMAlBi8oLKgTFXkmL2gw81NuXVWJvVA0RuWXGKIWsbb98MWLS4o8MX8f3mm32rTBgI+WGGC3oDJwoNzFbV+h5jsXgWE+E3+f3xcD4f9t0xUmvnDyrU+akEMn7KYS1OadVG4ZFOpsjxXynaC9hJe3vEBOEZC+CekFRC/cRyrXtgJcCgYACsnZ69X3lUwNBdOKxO1Ch2JshJebFvjTifSNRY3yZ+7XISZtIN+EgNuqQSLV7le9rTn0mZoaCvvr9M0nHsJ5Qt6026F8hesNtNU//DhZ5VmpHIhWXw1yNULMyJXjSKMB+V8dORUWT3G1cOCcIs5FtTzyDJWZL3tjyUB2lieqc1g==
+    charset: utf-8
+    format: json
+    sign-type: RSA2
+    cert-path: appCertPublicKey_2021000118638895.crt
+    alipay-public-cert-path: alipayCertPublicKey_RSA2.crt
+    root-cert-path: alipayRootCert.crt
+    notify-url: http://外网地址:外网端口/pay/ali/notify

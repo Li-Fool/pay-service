@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>订单测试</title>
+  <script src="https://unpkg.com/axios"></script>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="https://unpkg.com/qrcodejs2"></script>
+</head>
+<body>
+
+<div id="app">
+
+  <div>
+    <label>创建订单 <input type="text" v-model="outTradeNo"></label>
+    <button @click="outTradeNo=+new Date();tradeDetail=''">随机</button>
+    <br>
+    <label>金额 (分) <input type="text" v-model="total"></label><br>
+    <label>交易方式
+      <label><input type="radio" value="wx" v-model="mode"> 微信</label>
+      <label><input type="radio" value="ali" v-model="mode"> 支付宝[沙箱]</label>
+    </label><br>
+    <button @click="createTrade">创建订单</button>
+    <br>
+    <div class="qrcode" ref="qrcode"></div>
+  </div>
+
+  <div>
+    <label>查看订单 <input type="text" v-model="outTradeNo"></label>
+    <button @click="showTrade">查询</button>
+    <br>
+    <pre v-html="response.showTrade" v-show="response.showTrade"></pre>
+  </div>
+
+  <div>
+    <label>关闭订单 <input type="text" v-model="outTradeNo"></label>
+    <button @click="closeTrade">关闭</button>
+    <br>
+    <pre v-html="response.closeTrade" v-show="response.closeTrade"></pre>
+  </div>
+
+  <div>
+    <label>退款订单 <input type="text" v-model="outTradeNo"></label><br>
+    <label>退款请求 <input type="text" v-model="outRequestNo"></label><br>
+    <label>退款金额 <input type="text" v-model="refund"></label>
+    <button @click="outRequestNo=+new Date()*2;">随机</button>
+    <br>
+    <button @click="refundTrade">退款</button>
+    <br>
+    <pre v-html="response.refundTrade" v-show="response.refundTrade"></pre>
+  </div>
+
+</div>
+
+
+<script>
+  Vue.createApp({
+    data() {
+      return {
+        outTradeNo: +new Date(),
+        total: 1,
+        mode: 'wx',
+        refund: 1,
+        outRequestNo: +new Date() * 2,
+        response: {}
+      }
+    },
+    methods: {
+      //创建交易
+      async createTrade() {
+        const {outTradeNo, total, mode} = this
+        const {data: result} = await axios.post(`/pay/${mode}/trade`, null, {params: {outTradeNo, total}})
+        this.createQrCode(result.codeUrl)
+        this.openTradeWebSocket()
+      },
+      //通过链接生成二维码
+      createQrCode(text) {
+        const el = this.$refs.qrcode
+        el.innerHTML = ''
+        return new QRCode(el, {
+          text,
+          width: 100,
+          height: 100
+        })
+      },
+      //建立连接
+      openTradeWebSocket() {
+        const {outTradeNo, mode} = this
+        const ws = new WebSocket(`ws://${location.host}/pay/${mode}/websocket?outTradeNo=${outTradeNo}`)
+        ws.onclose = result =>{
+          alert("支付完毕")
+        }
+      },
+      //查询交易状态
+      async showTrade() {
+        const {outTradeNo, mode} = this
+        const {data: result} = await axios.get(`/pay/${mode}/trade`, {params: {outTradeNo}})
+        this.response.showTrade = JSON.stringify(result, null, 2)
+      },
+      //关闭订单
+      async closeTrade() {
+        const {outTradeNo, mode} = this
+        const {data: result} = await axios.get(`/pay/${mode}/trade/_close`, {params: {outTradeNo}})
+        this.response.closeTrade = JSON.stringify(result, null, 2)
+      },
+      //退款测试
+      async refundTrade() {
+        const {outTradeNo, refund, outRequestNo, mode} = this
+        const {data: result} = await axios.get(`/pay/${mode}/trade/_refund`, {params: {outTradeNo,refund,outRequestNo}})
+        this.response.refundTrade = JSON.stringify(result, null, 2)
+      }
+    }
+  }).mount('#app')
+</script>
+
+<style>
+  #app {
+    margin: 0 auto;
+    width: max-content;
+  }
+
+  pre {
+    border: solid 1px;
+    max-width: 300px;
+    overflow-x: auto;
+  }
+
+  #app > div {
+    border: solid 1px;
+    margin: 20px;
+    padding: 20px;
+  }
+</style>
+
+</body>
+</html>
